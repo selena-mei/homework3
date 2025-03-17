@@ -57,7 +57,7 @@ socialMedia.then(function(data) {
         .attr("y", -40)
         .attr("text-anchor", "middle")
         .text("Number of Likes");
-    
+    // Calculate quantiles
     const rollupFunction = function(groupData) {
         const values = groupData.map(d => d.Likes).sort(d3.ascending);
         const q1 = d3.quantile(values, 0.25);
@@ -106,13 +106,19 @@ const socialMediaAvg = d3.csv("socialMediaAvg.csv");
 
 socialMediaAvg.then(function(data) {
     // Convert string values to numbers
-
+    data.forEach(d => d.AvgLikes = +d.AvgLikes);
 
     // Define the dimensions and margins for the SVG
+    const margin = { top: 50, right: 30, bottom: 50, left: 60 };
+    const width = 600;
+    const height = 400;
     
-
     // Create the SVG container
-    
+    const svg = d3.select("body").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
 
     // Define four scales
     // Scale x0 is for the platform, which divide the whole scale into 4 parts
@@ -121,23 +127,33 @@ socialMediaAvg.then(function(data) {
     // Also need a color scale for the post type
 
     const x0 = d3.scaleBand()
+    .domain([...new Set(data.map(d => d.Platform))])
+        .range([0, width])
+        .padding(0.2);
       
-
     const x1 = d3.scaleBand()
+        .domain([...new Set(data.map(d => d.PostType))])
+        .range([0, x0.bandwidth()])
+        .padding(0.05);
       
 
     const y = d3.scaleLinear()
-      
+        .domain([0, d3.max(data, d => d.AvgLikes)])
+        .range([height, 0]);
 
     const color = d3.scaleOrdinal()
       .domain([...new Set(data.map(d => d.PostType))])
       .range(["#1f77b4", "#ff7f0e", "#2ca02c"]);    
          
     // Add scales x0 and y     
+    svg.append("g")
+        .attr("transform", `translate(0, ${height})`)
+        .call(d3.axisBottom(x0));
     
+    svg.append("g").call(d3.axisLeft(y));
 
     // Add x-axis label
-    
+
 
     // Add y-axis label
 
@@ -151,7 +167,12 @@ socialMediaAvg.then(function(data) {
 
   // Draw bars
     barGroups.append("rect")
-      
+      .attr("x", d => x1(d.PostType))
+      .attr("y", d => y(d.AvgLikes))
+      .attr("width", x1.bandwidth())
+      .attr("height", d => height - margin.top - margin.bottom - y(d.AvgLikes))
+      .attr("fill", d => color(d.PostType));
+          
 
     // Add the legend
     const legend = svg.append("g")
@@ -160,10 +181,16 @@ socialMediaAvg.then(function(data) {
     const types = [...new Set(data.map(d => d.PostType))];
  
     types.forEach((type, i) => {
+        legend.append("rect")
+        .attr("x", 0)
+        .attr("y", i * 20)
+        .attr("width", 15)
+        .attr("height", 15)
+        .attr("fill", color(type));
 
     // Alread have the text information for the legend. 
     // Now add a small square/rect bar next to the text with different color.
-      legend.append("text")
+        legend.append("text")
           .attr("x", 20)
           .attr("y", i * 20 + 12)
           .text(type)
