@@ -220,6 +220,7 @@ const socialMediaTime = d3.csv("socialMediaTime.csv");
 
 socialMediaTime.then(function(data) {
     // Convert string values to numbers
+    data.forEach(function(d) {
         d.AvgLikes = +d.AvgLikes;
         d.Date = new Date(d.Date);
     });
