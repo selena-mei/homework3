@@ -14,7 +14,7 @@ socialMedia.then(function(data) {
     const height = 400 - margin.top - margin.bottom;
 
     // Create the SVG container
-    const svg = d3.select("body").append("svg")
+    const svg = d3.select("#boxplot").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -114,7 +114,7 @@ socialMediaAvg.then(function(data) {
     const height = 400;
     
     // Create the SVG container
-    const svg = d3.select("body").append("svg")
+    const svg = d3.select("#barplot").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -231,7 +231,7 @@ socialMediaTime.then(function(data) {
     const height = 400;
 
     // Create the SVG container
-    const svg = d3.select("body").append("svg")
+    const svg = d3.select("#lineplot").append("svg")
         .attr("width", width)
         .attr("height", height)
         .append("g")
