@@ -77,16 +77,16 @@ socialMedia.then(function(data) {
         svg.append("line")
             .attr("x1", x + boxWidth / 2)
             .attr("x2", x + boxWidth / 2)
-            .attr("y1", yScale(quartiles.min))
-            .attr("y2", yScale(quartiles.max))
+            .attr("y1", yScale(quantiles.min))
+            .attr("y2", yScale(quantiles.max))
             .attr("stroke", "black");
 
         // Draw box
         svg.append("rect")
             .attr("x", x)
-            .attr("y", yScale(quartiles.q3))
+            .attr("y", yScale(quantiles.q3))
             .attr("width", boxWidth)
-            .attr("height", yScale(quartiles.q1) - yScale(quartiles.q3))
+            .attr("height", yScale(quantiles.q1) - yScale(quantiles.q3))
             .attr("fill", "lightblue")
             .attr("stroke", "black");
 
@@ -94,8 +94,8 @@ socialMedia.then(function(data) {
         svg.append("line")
             .attr("x1", x)
             .attr("x2", x + boxWidth)
-            .attr("y1", yScale(quartiles.median))
-            .attr("y2", yScale(quartiles.median))
+            .attr("y1", yScale(quantiles.median))
+            .attr("y2", yScale(quantiles.median))
             .attr("stroke", "black");  
     });
 });
@@ -173,7 +173,7 @@ socialMediaAvg.then(function(data) {
         .text("Average Likes");
 
   // Group container for bars
-    const barGroups = svg.selectAll("bar")
+    const barGroups = svg.selectAll("g.bar")
       .data(data)
       .enter()
       .append("g")
