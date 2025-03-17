@@ -173,7 +173,7 @@ socialMediaAvg.then(function(data) {
         .text("Average Likes");
 
   // Group container for bars
-    const barGroups = svg.selectAll("g.bar")
+    const barGroups = svg.selectAll("bar")
       .data(data)
       .enter()
       .append("g")
@@ -184,7 +184,7 @@ socialMediaAvg.then(function(data) {
       .attr("x", d => x1(d.PostType))
       .attr("y", d => y(d.AvgLikes))
       .attr("width", x1.bandwidth())
-      .attr("height", d => height - margin.top - margin.bottom - y(d.AvgLikes))
+      .attr("height", d => height - y(d.AvgLikes))
       .attr("fill", d => color(d.PostType));
           
 
