@@ -27,6 +27,15 @@ socialMedia.then(function(data) {
     // For the domain of the xscale, you can list all four platforms or use
     // [...new Set(data.map(d => d.Platform))] to achieve a unique list of the platform
     
+  // Question 4: for this: 
+    // const quartilesBySpecies = d3.rollup(data, rollupFunction, d => d.species);
+    // quartilesBySpecies.forEach((quartiles, species) => {
+    // const x = xScale(species); 
+   // const boxWidth = xScale.bandwidth();});
+// The function uses d3.rollup to group the data by species and calculate a summary statistic (quartiles) for each species.
+// then, it iterate over each species and its associated quartiles to calculate the x position and box width for rendering.
+// The third line calculates the x position based on the species using the xScale function,
+// and the fourth line gets the width of each box for the species using the bandwidth of the xScale.
 
     // Add scales     
     const xScale = d3.scaleBand()
